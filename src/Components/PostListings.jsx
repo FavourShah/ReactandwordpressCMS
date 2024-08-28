@@ -9,8 +9,13 @@ const PostListings = () => {
   const [underlineWidth, setUnderlineWidth] = useState('0');
 
   useEffect(() => {
-    fetch('/api/wp-json/wp/v2posts?_embed&per_page=4')
-      .then((response) => response.json())
+    fetch('/api/posts?_embed&per_page=4')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then((data) => setPosts(data))
       .catch((error) => console.error('Error fetching posts:', error));
   }, []);
@@ -20,7 +25,7 @@ const PostListings = () => {
   };
 
   const handleMouseLeave = () => {
-    setUnderlineWidth('0'); // Reset the underline width to animate again on the next hover
+    setUnderlineWidth('0');
   };
 
   return (
@@ -35,7 +40,6 @@ const PostListings = () => {
               onMouseLeave={handleMouseLeave}
             >
               Posts
-              {/* Animated Custom Navigation Borderline */}
               <span
                 className="block h-1 bg-customNav mt-1 mx-auto transition-all duration-500 ease-out"
                 style={{ width: underlineWidth }}
@@ -48,7 +52,6 @@ const PostListings = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {posts.map((post) => (
           <div key={post.id} className="bg-white rounded-lg shadow-lg overflow-hidden">
-            {/* Featured Image */}
             {post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0] && (
               <img
                 src={post._embedded['wp:featuredmedia'][0].source_url}
@@ -58,14 +61,12 @@ const PostListings = () => {
             )}
 
             <div className="p-6">
-              {/* Post Title */}
               <h2 className="text-xl font-semibold mb-2">
                 <Link to={`/posts/${post.id}`} className="hover:text-customNav transition">
                   {he.decode(post.title.rendered)}
                 </Link>
               </h2>
 
-              {/* Categories */}
               {post._embedded && post._embedded['wp:term'] && post._embedded['wp:term'][0] && (
                 <div className="mb-4">
                   <ul className="flex flex-wrap space-x-2">
@@ -83,7 +84,6 @@ const PostListings = () => {
                 </div>
               )}
 
-              {/* Post Content */}
               <div
                 className="text-gray-700 mb-4 truncate-3-lines"
                 dangerouslySetInnerHTML={{ __html: he.decode(post.excerpt.rendered) }}
@@ -104,7 +104,6 @@ const PostListings = () => {
         ))}
       </div>
 
-      {/* Button to All Posts Page */}
       <div className="text-center mt-8">
         <Link
           to="/posts"
