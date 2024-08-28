@@ -1,26 +1,23 @@
-import {Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
-import HomePage from './pages/HomePage'
-import AllPostsPage from './pages/AllPostsPage'
-import SinglePostsPage from './pages/SinglePostsPage';
+import { Route, createHashRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'; // Use createHashRouter
+import MainLayout from './Layouts/MainLayout';
+import HomePage from './Pages/HomePage';
+import AllPostsPage from './Pages/AllPostsPage';
+import SinglePostsPage from './Pages/SinglePostsPage';
 
-
-const router = createBrowserRouter(
+const router = createHashRouter( // Use createHashRouter
   createRoutesFromElements(
-    <Route path='/' element = {<MainLayout/>}>
-  <Route index element={<HomePage/>} />
-  <Route path = '/posts' element = {<AllPostsPage/>}/>
-  <Route path="/posts/:id" element={<SinglePostsPage />} />
-
-  </Route>
-)
-)
+    <Route path='/' element={<MainLayout />}>
+      <Route index element={<HomePage />} />
+      <Route path='/posts' element={<AllPostsPage />} />
+      <Route path="/posts/:id" element={<SinglePostsPage />} />
+    </Route>
+  )
+);
 
 const App = () => {
-
   return (
-    <RouterProvider router = {router}/>
-  )
+    <RouterProvider router={router} />
+  );
 }
 
-export default App
+export default App;
