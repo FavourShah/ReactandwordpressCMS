@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://favourezechi.com.ng/wp/wp-json/wp/v2",
+        target: "http://favourezechi.com.ng/wp",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

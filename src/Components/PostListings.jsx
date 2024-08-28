@@ -9,7 +9,7 @@ const PostListings = () => {
   const [underlineWidth, setUnderlineWidth] = useState('0');
 
   useEffect(() => {
-    fetch('/api/posts?_embed&per_page=4')
+    fetch('/api/wp-json/wp/v2posts?_embed&per_page=4')
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error('Error fetching posts:', error));
