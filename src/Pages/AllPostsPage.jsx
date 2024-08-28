@@ -19,8 +19,8 @@ const AllPostsPage = () => {
 
   useEffect(() => {
     const url = selectedCategory
-      ? `http://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&categories=${selectedCategory}&page=${currentPage}&per_page=6`
-      : `http://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&page=${currentPage}&per_page=6`;
+      ? `https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&categories=${selectedCategory}&page=${currentPage}&per_page=6`
+      : `https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&page=${currentPage}&per_page=6`;
 
     setIsLoading(true);
 

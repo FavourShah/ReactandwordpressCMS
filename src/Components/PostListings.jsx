@@ -9,7 +9,7 @@ const PostListings = () => {
   const [underlineWidth, setUnderlineWidth] = useState('0');
 
   useEffect(() => {
-    fetch('http://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=4')
+    fetch('https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=4')
       .then((response) => response.json())
       .then((data) => setPosts(data))
       .catch((error) => console.error('Error fetching posts:', error));

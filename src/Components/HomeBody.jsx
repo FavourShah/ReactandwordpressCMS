@@ -11,7 +11,7 @@ const HomeBody = ({ categoryId }) => {
 
   useEffect(() => {
     // Fetch the 3 most recent posts ordered by date in descending order
-    fetch(`http://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=3&orderby=date&order=desc&categories=${categoryId}`)
+    fetch(`https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=3&orderby=date&order=desc&categories=${categoryId}`)
       .then(response => response.json())
       .then(data => setPosts(data))
       .catch(error => console.error('Error fetching posts:', error));

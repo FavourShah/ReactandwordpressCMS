@@ -17,19 +17,19 @@ const SinglePostsPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://favourezechi.com.ng/wp/wp-json/wp/v2/posts/${id}?_embed`)
+    fetch(`https://favourezechi.com.ng/wp/wp-json/wp/v2/posts/${id}?_embed`)
       .then(response => response.json())
       .then(data => {
         setPost(data);
   
 
         // Fetch next post
-        fetch(`http://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&after=${data.date}&per_page=1`)
+        fetch(`https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&after=${data.date}&per_page=1`)
           .then(response => response.json())
           .then(data => setNextPost(data[0]));
 
         // Fetch previous post
-        fetch(`http://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&before=${data.date}&per_page=1`)
+        fetch(`https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&before=${data.date}&per_page=1`)
           .then(response => response.json())
           .then(data => setPrevPost(data[0]));
       })
