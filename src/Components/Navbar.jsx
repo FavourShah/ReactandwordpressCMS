@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Link as ScrollLink } from 'react-scroll';
+import {  animateScroll as scroll } from 'react-scroll';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -19,10 +19,13 @@ const Navbar = () => {
   const handleScrollLinkClick = (path) => {
     if (location.pathname === "/") {
       // If already on the homepage, just scroll
-      ScrollLink.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
+      scroll.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
     } else {
-      // Navigate to the homepage and then scroll
+      // Navigate to the homepage and then scroll after rendering
       navigate(`/#${path}`);
+      setTimeout(() => {
+        scroll.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
+      }, 0);
     }
     closeNav(); // Close the menu
   };
@@ -30,8 +33,8 @@ const Navbar = () => {
   const navItems = [
     { id: 1, text: 'Home', path: '/' },
     { id: 2, text: 'Posts', path: '/posts' },
-    { id: 3, text: 'Reviews', path: '/testimonials' },
-    { id: 4, text: 'Sign Up', path: '/contact' },
+    { id: 3, text: 'Reviews', path: 'testimonials' },
+    { id: 4, text: 'Sign Up', path: 'contact' },
   ];
 
   return (
@@ -45,7 +48,7 @@ const Navbar = () => {
             key={item.id}
             className='p-4 hover:bg-customButton rounded-xl m-1 cursor-pointer duration-300 text-customTyp text-l whitespace-nowrap'
           >
-            {item.path === '/testimonials' || item.path === '/contact' ? (
+            {item.path === 'testimonials' || item.path === 'contact' ? (
               <span onClick={() => handleScrollLinkClick(item.path)}>{item.text}</span>
             ) : (
               <Link to={item.path} onClick={closeNav}>
