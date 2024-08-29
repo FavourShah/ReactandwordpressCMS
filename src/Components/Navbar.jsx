@@ -45,7 +45,7 @@ const Navbar = () => {
             key={item.id}
             className='p-4 hover:bg-customButton rounded-xl m-1 cursor-pointer duration-300 text-customTyp text-l whitespace-nowrap'
           >
-            {item.path === 'testimonials' || item.path === 'contact' ? (
+            {item.path === '/testimonials' || item.path === '/contact' ? (
               <span onClick={() => handleScrollLinkClick(item.path)}>{item.text}</span>
             ) : (
               <Link to={item.path} onClick={closeNav}>
