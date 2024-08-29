@@ -1,9 +1,9 @@
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import MainLayout from './layouts/MainLayout';
-import HomePage from './pages/HomePage';
-import PostsPage from './pages/PostsPage';
-import ContactPage from './pages/ContactPage';
-import TestimonialsPage from './pages/TestimonialsPage'; // Assuming you have separate pages for these sections
+import MainLayout from './Layouts/MainLayout';
+import HomePage from './Pages/HomePage';
+import PostsPage from './Pages/PostsPage';
+import ContactPage from './Pages/ContactPage';
+import TestimonialsPage from './Pages/TestimonialsPage'; // Assuming you have separate pages for these sections
 
 const router = createBrowserRouter(
   createRoutesFromElements(
