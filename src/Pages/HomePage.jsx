@@ -1,25 +1,28 @@
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import MainLayout from './Layouts/MainLayout';
-import HomePage from './Pages/HomePage';
-import PostsPage from './Pages/PostsPage';
-import ContactPage from './Pages/ContactPage';
-import TestimonialsPage from './Pages/TestimonialsPage'; // Assuming you have separate pages for these sections
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path="/" element={<MainLayout />}>
-      <Route index element={<HomePage />} />
-      <Route path="posts" element={<PostsPage />} />
-      <Route path="contact" element={<ContactPage />} />
-      <Route path="testimonials" element={<TestimonialsPage />} />
-    </Route>
-  )
-);
+import Hero from "../Components/Hero";
+import PostListings from "../Components/PostListings";
+import HomeBody from "../Components/HomeBody";
+import ContactPage from "./ContactPage";
+import TestimonialsPage from "./TestimonialsPage";
 
-function App() {
+
+const HomePage = () => {
+  const categoryId = 4;
+
   return (
-    <RouterProvider router={router} />
-  );
-}
+    <>
+      <Hero />
+      <PostListings />
+      <HomeBody categoryId={categoryId} />
 
-export default App;
+        <ContactPage />
+   
+      
+   
+        <TestimonialsPage />
+     
+    </>
+  );
+};
+
+export default HomePage;
