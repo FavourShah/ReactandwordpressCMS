@@ -1,29 +1,25 @@
-import { Element } from "react-scroll";
-import Hero from "../Components/Hero";
-import PostListings from "../Components/PostListings";
-import HomeBody from "../Components/HomeBody";
-import Contact from "../Components/Contact";
-import Testimonials from "../Components/Testimonials";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/HomePage';
+import PostsPage from './pages/PostsPage';
+import ContactPage from './pages/ContactPage';
+import TestimonialsPage from './pages/TestimonialsPage'; // Assuming you have separate pages for these sections
 
-const HomePage = () => {
-  const categoryId = 4;
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<MainLayout />}>
+      <Route index element={<HomePage />} />
+      <Route path="posts" element={<PostsPage />} />
+      <Route path="contact" element={<ContactPage />} />
+      <Route path="testimonials" element={<TestimonialsPage />} />
+    </Route>
+  )
+);
 
+function App() {
   return (
-    <>
-      <Hero />
-      <PostListings />
-      <HomeBody categoryId={categoryId} />
-
-      {/* Wrap sections with Element and  a name matching the scroll link */}
-      <Element name="contact">
-        <Contact />
-      </Element>
-      
-      <Element name="testimonials">
-        <Testimonials />
-      </Element>
-    </>
+    <RouterProvider router={router} />
   );
-};
+}
 
-export default HomePage;
+export default App;

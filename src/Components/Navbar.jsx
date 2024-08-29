@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { animateScroll as scroll } from 'react-scroll';
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const handleNav = () => {
     setNav(!nav);
@@ -16,25 +13,11 @@ const Navbar = () => {
     setNav(false); // Close the menu after clicking
   };
 
-  const handleScrollLinkClick = (path) => {
-    if (location.pathname === "/") {
-      // If already on the homepage, just scroll
-      scroll.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
-    } else {
-      // Navigate to the homepage and scroll to the section after rendering
-      navigate("/");
-      setTimeout(() => {
-        scroll.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
-      }, 0);
-    }
-    closeNav(); // Close the menu
-  };
-
   const navItems = [
     { id: 1, text: 'Home', path: '/' },
     { id: 2, text: 'Posts', path: '/posts' },
-    { id: 3, text: 'Reviews', path: 'testimonials' },
-    { id: 4, text: 'Sign Up', path: 'contact' },
+    { id: 3, text: 'Reviews', path: '/testimonials' }, // Route for Testimonials
+    { id: 4, text: 'Sign Up', path: '/contact' }, // Route for Contact
   ];
 
   return (
@@ -48,13 +31,9 @@ const Navbar = () => {
             key={item.id}
             className='p-4 hover:bg-customButton rounded-xl m-1 cursor-pointer duration-300 text-customTyp text-l whitespace-nowrap'
           >
-            {item.path === 'testimonials' || item.path === 'contact' ? (
-              <span onClick={() => handleScrollLinkClick(item.path)}>{item.text}</span>
-            ) : (
-              <Link to={item.path} onClick={closeNav}>
-                {item.text}
-              </Link>
-            )}
+            <Link to={item.path} onClick={closeNav}>
+              {item.text}
+            </Link>
           </li>
         ))}
       </ul>
@@ -80,13 +59,9 @@ const Navbar = () => {
             key={item.id}
             className='p-4 w-full text-center border-b border-gray-300 hover:bg-customButton duration-300 hover:text-black cursor-pointer'
           >
-            {item.path === 'testimonials' || item.path === 'contact' ? (
-              <span onClick={() => handleScrollLinkClick(item.path)}>{item.text}</span>
-            ) : (
-              <Link to={item.path} onClick={closeNav}>
-                {item.text}
-              </Link>
-            )}
+            <Link to={item.path} onClick={closeNav}>
+              {item.text}
+            </Link>
           </li>
         ))}
       </ul>
