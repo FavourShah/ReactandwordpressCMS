@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,8 @@ const AllPostsPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const selectedCategory = searchParams.get('category');
+
+  const navigate = useNavigate(); // Use navigate for programmatic navigation
 
   useEffect(() => {
     const url = selectedCategory
@@ -73,7 +75,6 @@ const AllPostsPage = () => {
             <FontAwesomeIcon icon={faNewspaper} className="mr-3 text-customIcon" />
             <span className="relative">
               All Posts
-              {/* Animated Underline */}
               <span
                 className="block h-1 bg-customNav mt-1 transition-all duration-500 ease-out"
                 style={{ width: underlineWidth }}
@@ -83,10 +84,9 @@ const AllPostsPage = () => {
         </h1>
       </div>
 
-      {/* Back to All Posts Button */}
       {selectedCategory && (
         <button
-          onClick={() => window.location.href = '/posts'}
+          onClick={() => navigate('/posts')} // Navigate using useNavigate
           className="mb-4 px-4 py-2 border rounded-full border-customIcon text-customLink text-sm hover:bg-customNav hover:text-white transition"
         >
           Back to All Posts
@@ -115,14 +115,13 @@ const AllPostsPage = () => {
             <div className="flex flex-col justify-center">
               <h2 className="text-2xl font-semibold mb-2">{he.decode(post.title.rendered)}</h2>
 
-              {/* Categories */}
               {post._embedded && post._embedded['wp:term'] && post._embedded['wp:term'][0] && (
                 <div className="mb-4">
                   <ul className="flex flex-wrap space-x-2">
                     {post._embedded['wp:term'][0].map(category => (
                       <li key={category.id}>
                         <button
-                          onClick={() => window.location.href = `/posts?category=${category.id}`}
+                          onClick={() => navigate(`/posts?category=${category.id}`)} // Navigate using useNavigate
                           className="px-2 py-1 border rounded-full border-customIcon text-customLink text-sm hover:bg-customNav hover:text-white transition"
                         >
                           {category.name}
@@ -145,7 +144,6 @@ const AllPostsPage = () => {
         ))}
       </div>
 
-      {/* Pagination Controls */}
       <div className="flex justify-center mt-8 space-x-4">
         <button
           onClick={handlePreviousPage}

@@ -9,7 +9,7 @@ const PostListings = () => {
   const [underlineWidth, setUnderlineWidth] = useState('0');
 
   useEffect(() => {
-    fetch('/api/posts?_embed&per_page=4')
+    fetch('https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=4')
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');

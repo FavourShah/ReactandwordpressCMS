@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Link as ScrollLink } from 'react-scroll';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNav = () => {
     setNav(!nav);
@@ -12,6 +14,17 @@ const Navbar = () => {
 
   const closeNav = () => {
     setNav(false); // Close the menu after clicking
+  };
+
+  const handleScrollLinkClick = (path) => {
+    if (location.pathname === "/") {
+      // If already on the homepage, just scroll
+      ScrollLink.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
+    } else {
+      // Navigate to the homepage and then scroll
+      navigate(`/#${path}`);
+    }
+    closeNav(); // Close the menu
   };
 
   const navItems = [
@@ -33,15 +46,7 @@ const Navbar = () => {
             className='p-4 hover:bg-customButton rounded-xl m-1 cursor-pointer duration-300 text-customTyp text-l whitespace-nowrap'
           >
             {item.path === 'testimonials' || item.path === 'contact' ? (
-              <ScrollLink
-                to={item.path}
-                smooth={true}
-                duration={500}
-                offset={-70} // adjusting  offset as needed for fixed header
-                onClick={closeNav} // to close the menu after clicking
-              >
-                {item.text}
-              </ScrollLink>
+              <span onClick={() => handleScrollLinkClick(item.path)}>{item.text}</span>
             ) : (
               <Link to={item.path} onClick={closeNav}>
                 {item.text}
@@ -73,15 +78,7 @@ const Navbar = () => {
             className='p-4 w-full text-center border-b border-gray-300 hover:bg-customButton duration-300 hover:text-black cursor-pointer'
           >
             {item.path === 'testimonials' || item.path === 'contact' ? (
-              <ScrollLink
-                to={item.path}
-                smooth={true}
-                duration={500}
-                offset={-70} // adjusting  offset as needed for fixed header
-                onClick={closeNav} // to close the menu after clicking
-              >
-                {item.text}
-              </ScrollLink>
+              <span onClick={() => handleScrollLinkClick(item.path)}>{item.text}</span>
             ) : (
               <Link to={item.path} onClick={closeNav}>
                 {item.text}
