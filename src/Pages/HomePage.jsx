@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Element } from "react-scroll";
 import Hero from "../Components/Hero";
 import PostListings from "../Components/PostListings";
 import HomeBody from "../Components/HomeBody";
@@ -8,28 +7,21 @@ import Testimonials from "../Components/Testimonials";
 
 const HomePage = () => {
   const categoryId = 4;
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.hash) {
-      const element = document.querySelector(location.hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [location]);
 
   return (
     <>
       <Hero />
       <PostListings />
       <HomeBody categoryId={categoryId} />
-      <div id="contact">
+
+      {/* Wrap sections with Element and  a name matching the scroll link */}
+      <Element name="contact">
         <Contact />
-      </div>
-      <div id="testimonials">
+      </Element>
+      
+      <Element name="testimonials">
         <Testimonials />
-      </div>
+      </Element>
     </>
   );
 };

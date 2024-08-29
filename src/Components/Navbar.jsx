@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import {  animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -21,8 +21,8 @@ const Navbar = () => {
       // If already on the homepage, just scroll
       scroll.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
     } else {
-      // Navigate to the homepage and then scroll after rendering
-      navigate(`/#${path}`);
+      // Navigate to the homepage and scroll to the section after rendering
+      navigate("/");
       setTimeout(() => {
         scroll.scrollTo(path, { smooth: true, duration: 500, offset: -70 });
       }, 0);
