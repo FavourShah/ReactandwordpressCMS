@@ -8,8 +8,10 @@ const PostListings = () => {
   const [posts, setPosts] = useState([]);
   const [underlineWidth, setUnderlineWidth] = useState('0');
 
+  const productsCategoryId = 6;
+
   useEffect(() => {
-    fetch('https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=4')
+    fetch(`https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&per_page=4&categories_exclude=${productsCategoryId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -18,7 +20,7 @@ const PostListings = () => {
       })
       .then((data) => setPosts(data))
       .catch((error) => console.error('Error fetching posts:', error));
-  }, []);
+  }, [productsCategoryId]);
 
   const handleMouseEnter = () => {
     setUnderlineWidth('100%');

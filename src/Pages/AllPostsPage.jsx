@@ -17,12 +17,14 @@ const AllPostsPage = () => {
   const searchParams = new URLSearchParams(location.search);
   const selectedCategory = searchParams.get('category');
 
-  const navigate = useNavigate(); // Use navigate for programmatic navigation
+  const navigate = useNavigate(); 
 
+
+  const productsCategoryId = 6; 
   useEffect(() => {
     const url = selectedCategory
-      ? `https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&categories=${selectedCategory}&page=${currentPage}&per_page=6`
-      : `https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&page=${currentPage}&per_page=6`;
+      ? `https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&categories=${selectedCategory}&page=${currentPage}&per_page=6&categories_exclude=${productsCategoryId}`
+      : `https://favourezechi.com.ng/wp/wp-json/wp/v2/posts?_embed&page=${currentPage}&per_page=6&categories_exclude=${productsCategoryId}`;
 
     setIsLoading(true);
 
@@ -39,7 +41,7 @@ const AllPostsPage = () => {
         console.error('Error fetching posts:', error);
         setIsLoading(false);
       });
-  }, [selectedCategory, currentPage]);
+  }, [selectedCategory, currentPage, productsCategoryId]);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {

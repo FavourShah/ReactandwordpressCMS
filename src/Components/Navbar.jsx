@@ -47,7 +47,7 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
       <h1 className='w-full text-3xl font-montserrat text-customHead'>LiFt.</h1>
 
       {/* Desktop Navigation */}
-      <ul className='hidden md:flex font-montserrat space-x-10 items-center'> {/* Added items-center */}
+      <ul className='hidden md:flex font-montserrat space-x-10 items-center'>
         {navItems.map(item => (
           <li
             key={item.id}
@@ -64,8 +64,8 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
         ))}
 
         {/* Cart Display */}
-        <li className='relative flex items-center'> {/* Added flex and items-center */}
-          <Link to="/cart" className='flex items-center'> {/* Changed to /checkout */}
+        <li className='relative flex items-center'>
+          <Link to="/cart" className='flex items-center'>
             <AiOutlineShoppingCart size={24} className='cursor-pointer' />
             {totalItemsInCart > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 rounded-full text-white px-2 py-1 text-xs">
@@ -76,9 +76,22 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
         </li>
       </ul>
 
-      {/* Mobile Navigation Icon */}
-      <div onClick={handleNav} className='block md:hidden cursor-pointer z-50'>
-        {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+      {/* Mobile Cart Icon */}
+      <div className="block md:hidden flex items-center z-50">
+        {/* Cart Display for Mobile */}
+        <Link to="/cart" className='relative flex items-center mr-4'>
+          <AiOutlineShoppingCart size={24} className='cursor-pointer' />
+          {totalItemsInCart > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 rounded-full text-white px-2 py-1 text-xs">
+              {totalItemsInCart}
+            </span>
+          )}
+        </Link>
+
+        {/* Mobile Navigation Icon */}
+        <div onClick={handleNav} className='cursor-pointer'>
+          {nav ? <AiOutlineClose size={20} /> : <AiOutlineMenu size={20} />}
+        </div>
       </div>
 
       {/* Overlay (Visible only when menu is open) */}
@@ -109,7 +122,7 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
 
         {/* Mobile Cart Display */}
         <li className='relative flex items-center'>
-          <Link to="/cart" className='flex items-center'> {/* Changed to /checkout */}
+          <Link to="/cart" className='flex items-center'>
             <AiOutlineShoppingCart size={24} className='cursor-pointer' />
             {totalItemsInCart > 0 && (
               <span className="absolute -top-2 -right-2 bg-red-500 rounded-full text-white px-2 py-1 text-xs">
