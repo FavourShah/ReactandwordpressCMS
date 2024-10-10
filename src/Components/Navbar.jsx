@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link } from "react-router-dom";
+import { AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai'; // Add shopping cart icon
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { animateScroll as scroll } from 'react-scroll';
 
-const Navbar = () => {
+const Navbar = ({ cart }) => { // Receive cart as a prop
   const [nav, setNav] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNav = () => {
     setNav(!nav);
@@ -13,29 +16,64 @@ const Navbar = () => {
     setNav(false); // Close the menu after clicking
   };
 
+  const handleScrollLinkClick = (id) => {
+    const offset = -350; // Adjust this value as needed
+    if (location.pathname === "/") {
+      // If already on the homepage, scroll to the section
+      scroll.scrollTo(id, { smooth: true, duration: 500, offset });
+    } else {
+      // Navigate to the homepage and scroll to the section
+      navigate("/");
+      setTimeout(() => {
+        scroll.scrollTo(id, { smooth: true, duration: 500, offset });
+      }, 0);
+    }
+    closeNav(); // Close the menu
+  };
+
   const navItems = [
     { id: 1, text: 'Home', path: '/' },
     { id: 2, text: 'Posts', path: '/posts' },
-    { id: 3, text: 'Reviews', path: '/testimonials' }, // Route for Testimonials
-    { id: 4, text: 'Sign Up', path: '/contact' }, // Route for Contact
+    { id: 3, text: 'Reviews', scrollToId: 'testimonials' }, // Scroll to Testimonials
+    { id: 4, text: 'Sign Up', scrollToId: 'contact' }, // Scroll to Contact
+    { id: 5, text: 'Shop', path: '/products' },
   ];
+
+  // Calculate total item quantity in the cart
+  const totalItemsInCart = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <div className='bg-customNav flex justify-between items-center h-20 mx-auto px-10 text-white relative'>
       <h1 className='w-full text-3xl font-montserrat text-customHead'>LiFt.</h1>
 
       {/* Desktop Navigation */}
-      <ul className='hidden md:flex font-montserrat space-x-10'>
+      <ul className='hidden md:flex font-montserrat space-x-10 items-center'> {/* Added items-center */}
         {navItems.map(item => (
           <li
             key={item.id}
             className='p-4 hover:bg-customButton rounded-xl m-1 cursor-pointer duration-300 text-customTyp text-l whitespace-nowrap'
           >
-            <Link to={item.path} onClick={closeNav}>
-              {item.text}
-            </Link>
+            {item.scrollToId ? (
+              <span onClick={() => handleScrollLinkClick(item.scrollToId)}>{item.text}</span>
+            ) : (
+              <Link to={item.path} onClick={closeNav}>
+                {item.text}
+              </Link>
+            )}
           </li>
         ))}
+
+        {/* Cart Display */}
+        <li className='relative flex items-center'> {/* Added flex and items-center */}
+          <Link to="/cart" className='flex items-center'> {/* Changed to /checkout */}
+            <AiOutlineShoppingCart size={24} className='cursor-pointer' />
+            {totalItemsInCart > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 rounded-full text-white px-2 py-1 text-xs">
+                {totalItemsInCart}
+              </span>
+            )}
+          </Link>
+        </li>
       </ul>
 
       {/* Mobile Navigation Icon */}
@@ -59,11 +97,27 @@ const Navbar = () => {
             key={item.id}
             className='p-4 w-full text-center border-b border-gray-300 hover:bg-customButton duration-300 hover:text-black cursor-pointer'
           >
-            <Link to={item.path} onClick={closeNav}>
-              {item.text}
-            </Link>
+            {item.scrollToId ? (
+              <span onClick={() => handleScrollLinkClick(item.scrollToId)}>{item.text}</span>
+            ) : (
+              <Link to={item.path} onClick={closeNav}>
+                {item.text}
+              </Link>
+            )}
           </li>
         ))}
+
+        {/* Mobile Cart Display */}
+        <li className='relative flex items-center'>
+          <Link to="/cart" className='flex items-center'> {/* Changed to /checkout */}
+            <AiOutlineShoppingCart size={24} className='cursor-pointer' />
+            {totalItemsInCart > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 rounded-full text-white px-2 py-1 text-xs">
+                {totalItemsInCart}
+              </span>
+            )}
+          </Link>
+        </li>
       </ul>
     </div>
   );

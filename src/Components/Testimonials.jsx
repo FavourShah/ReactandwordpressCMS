@@ -43,7 +43,7 @@ const Testimonials = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-10 mb-20 ">
+    <div className="container mx-auto p-4 mt-10 mb-20 " id = "testiomonials">
       {/* Title and Icon outside the card */}
       <div className="text-center mb-8">
         <h2 className="text-4xl font-roboto flex flex-col items-center justify-center text-customNav relative">

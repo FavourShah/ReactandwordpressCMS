@@ -2,8 +2,8 @@
 import Hero from "../Components/Hero";
 import PostListings from "../Components/PostListings";
 import HomeBody from "../Components/HomeBody";
-import ContactPage from "./ContactPage";
-import TestimonialsPage from "./TestimonialsPage";
+import Contact from "../Components/Contact";
+import Testimonials from "../Components/Testimonials";
 
 
 const HomePage = () => {
@@ -15,11 +15,11 @@ const HomePage = () => {
       <PostListings />
       <HomeBody categoryId={categoryId} />
 
-        <ContactPage />
+        <Contact id = "contact"/>
    
       
    
-        <TestimonialsPage />
+        <Testimonials id = "testimonials" />
      
     </>
   );

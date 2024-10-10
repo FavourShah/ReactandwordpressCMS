@@ -60,7 +60,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mb-20">
+    <div className="max-w-lg mx-auto mb-20" id = "contact">
       {/* Title and Icon */}
       <div className="text-center mb-8">
         <h2 className="text-4xl font-roboto flex flex-col items-center justify-center text-customNav relative">
