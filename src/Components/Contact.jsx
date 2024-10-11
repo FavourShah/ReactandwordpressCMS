@@ -10,6 +10,7 @@ const Contact = () => {
   });
 
   const [underlineWidth, setUnderlineWidth] = useState('0');
+  const [showNotification, setShowNotification] = useState(false); // Track whether to show the notification
 
   const handleChange = (e) => {
     setFormData({
@@ -21,34 +22,45 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Send the initial email
-    emailjs.send(
-      'service_jmijeac',  // My Service ID
-      'template_5q5mq5u', // My Template ID for the initial email
-      formData,
-      'Ui_eX8BQ3XIN8jZoU' // Your User ID
-    ).then((response) => {
-      console.log('SUCCESS!', response.status, response.text);
-      
-      // Send the autoresponder email
-      emailjs.send(
-        'service_jmijeac',  
-        'template_k5oala7', // My Template ID for the autoresponder
-        formData,
-        'Ui_eX8BQ3XIN8jZoU'
-      ).then((response) => {
-        console.log('Autoresponder sent!', response.status, response.text);
-      }).catch((err) => {
-        console.error('Failed to send autoresponder...', err);
-      });
-    }).catch((err) => {
-      console.error('Failed to send initial email...', err);
-    });
+    if (formData.name && formData.email) {
+      // Show notification immediately
+      setShowNotification(true);
 
-    setFormData({
-      name: '',
-      email: '',
-    });
+      // Send the initial email
+      emailjs.send(
+        'service_jmijeac',  // My Service ID
+        'template_5q5mq5u', // My Template ID for the initial email
+        formData,
+        'Ui_eX8BQ3XIN8jZoU' // Your User ID
+      ).then((response) => {
+        console.log('SUCCESS!', response.status, response.text);
+        
+        // Send the autoresponder email
+        emailjs.send(
+          'service_jmijeac',  
+          'template_k5oala7', // My Template ID for the autoresponder
+          formData,
+          'Ui_eX8BQ3XIN8jZoU'
+        ).then((response) => {
+          console.log('Autoresponder sent!', response.status, response.text);
+        }).catch((err) => {
+          console.error('Failed to send autoresponder...', err);
+        });
+      }).catch((err) => {
+        console.error('Failed to send initial email...', err);
+      });
+
+      // Clear the form fields
+      setFormData({
+        name: '',
+        email: '',
+      });
+
+      // Hide notification after 2 seconds
+      setTimeout(() => {
+        setShowNotification(false);
+      }, 2000);
+    }
   };
 
   const handleMouseEnter = () => {
@@ -60,7 +72,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto mb-20" id = "contact">
+    <div className="max-w-lg mx-auto mb-20" id="contact">
       {/* Title and Icon */}
       <div className="text-center mb-8">
         <h2 className="text-4xl font-roboto flex flex-col items-center justify-center text-customNav relative">
@@ -118,6 +130,13 @@ const Contact = () => {
             Subscribe
           </button>
         </form>
+        
+        {/* Success Notification */}
+        {showNotification && (
+          <div className="absolute top-0 left-0 right-0 mx-auto mt-2 bg-green-100 text-green-800 text-center p-2 rounded-lg shadow-md">
+            Subscribed successfully!
+          </div>
+        )}
       </div>
     </div>
   );
