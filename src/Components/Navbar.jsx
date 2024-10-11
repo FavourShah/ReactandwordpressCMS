@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai'; // Add shopping cart icon
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { animateScroll as scroll } from 'react-scroll';
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = ({ cart }) => { // Receive cart as a prop
   const [nav, setNav] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+
 
   const handleNav = () => {
     setNav(!nav);
@@ -16,26 +14,9 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
     setNav(false); // Close the menu after clicking
   };
 
-  const handleScrollLinkClick = (id) => {
-    const offset = -350; // Adjust this value as needed
-    if (location.pathname === "/") {
-      // If already on the homepage, scroll to the section
-      scroll.scrollTo(id, { smooth: true, duration: 500, offset });
-    } else {
-      // Navigate to the homepage and scroll to the section
-      navigate("/");
-      setTimeout(() => {
-        scroll.scrollTo(id, { smooth: true, duration: 500, offset });
-      }, 0);
-    }
-    closeNav(); // Close the menu
-  };
-
   const navItems = [
     { id: 1, text: 'Home', path: '/' },
     { id: 2, text: 'Posts', path: '/posts' },
-    { id: 3, text: 'Reviews', scrollToId: 'testimonials' }, // Scroll to Testimonials
-    { id: 4, text: 'Sign Up', scrollToId: 'contact' }, // Scroll to Contact
     { id: 5, text: 'Shop', path: '/products' },
   ];
 
@@ -53,13 +34,9 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
             key={item.id}
             className='p-4 hover:bg-customButton rounded-xl m-1 cursor-pointer duration-300 text-customTyp text-l whitespace-nowrap'
           >
-            {item.scrollToId ? (
-              <span onClick={() => handleScrollLinkClick(item.scrollToId)}>{item.text}</span>
-            ) : (
-              <Link to={item.path} onClick={closeNav}>
-                {item.text}
-              </Link>
-            )}
+            <Link to={item.path} onClick={closeNav}>
+              {item.text}
+            </Link>
           </li>
         ))}
 
@@ -110,13 +87,9 @@ const Navbar = ({ cart }) => { // Receive cart as a prop
             key={item.id}
             className='p-4 w-full text-center border-b border-gray-300 hover:bg-customButton duration-300 hover:text-black cursor-pointer'
           >
-            {item.scrollToId ? (
-              <span onClick={() => handleScrollLinkClick(item.scrollToId)}>{item.text}</span>
-            ) : (
-              <Link to={item.path} onClick={closeNav}>
-                {item.text}
-              </Link>
-            )}
+            <Link to={item.path} onClick={closeNav}>
+              {item.text}
+            </Link>
           </li>
         ))}
 

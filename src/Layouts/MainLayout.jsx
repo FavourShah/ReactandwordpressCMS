@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
+import WhatsappIcon from "../Components/WhatsappIcon"; // Import the WhatsAppIcon component
 
 const MainLayout = () => {
   // Load cart from localStorage on initial render
@@ -80,6 +81,9 @@ const MainLayout = () => {
       <footer>
         <Footer />
       </footer>
+
+      {/* WhatsApp Icon - Always present at the bottom-right corner */}
+      <WhatsappIcon />
     </div>
   );
 }
