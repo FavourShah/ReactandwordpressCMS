@@ -10,10 +10,13 @@ const CheckoutPage = () => {
   // Calculate total price
   const totalPrice = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
+  // Generate a description that includes the exact items being paid for
+  const itemNames = cart.map((item) => he.decode(item.title.rendered)).join(', ');
+
   // Flutterwave payment configuration
   const flutterwaveConfig = {
-    public_key: 'FLWPUBK_TEST-cfc89c95ece5516a4bc0d365bd0d9026-X', // Replace with your Flutterwave public key
-    tx_ref: Date.now(), // Unique transaction reference
+    public_key: 'FLWPUBK_TEST-cfc89c95ece5516a4bc0d365bd0d9026-X',
+    tx_ref: `${Date.now()}_payment_for_${itemNames.replace(/,\s*/g, '_')}`, // Concatenating item names into tx_ref
     amount: totalPrice,
     currency: 'NGN',
     payment_options: 'card, mobilemoney, ussd',
@@ -24,8 +27,11 @@ const CheckoutPage = () => {
     },
     customizations: {
       title: 'LiFt Fitness Payment',
-      description: `Payment for LiFt Fitness`,
-      logo: 'https://your-logo-url.com/logo.png', // Optional: Replace with your own logo
+      description: `Payment for LiFt Fitness`, 
+    },
+    meta: {
+      cartItems: itemNames, // Add cart item names to metadata
+      totalPrice: totalPrice.toFixed(2),
     },
     callback: (response) => {
       console.log(response);
@@ -55,25 +61,32 @@ const CheckoutPage = () => {
       ) : (
         <div>
           {cart.map((item) => (
-            <div key={item.id} className="border-b py-4 flex justify-between items-center">
-              <h2 className="text-lg font-semibold">{he.decode(item.title.rendered)}</h2> {/* Decode title */}
-              <div className="flex items-center">
-                <span className="text-gray-600 mr-4">Quantity: {item.quantity}</span> {/* Display quantity */}
-                <span className="text-gray-600 mr-4">
-                  Total Price: #{(item.price * item.quantity).toFixed(2)}
-                </span> {/* Display total price per item */}
-                <button
-                  onClick={() => handleRemoveFromCart(item.id)} // Remove one quantity
-                  className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-all duration-200"
-                >
-                  Remove One
-                </button>
-                <button
-                  onClick={() => handleRemoveItemCompletely(item.id)} // Remove item completely
-                  className="bg-gray-500 text-white px-3 py-1 rounded-lg ml-2 hover:bg-gray-600 transition-all duration-200"
-                >
-                  Remove All
-                </button>
+            <div key={item.id} className="border-b py-4">
+              {/* Item details and buttons in a responsive layout */}
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+                <h2 className="text-lg font-semibold">{he.decode(item.title.rendered)}</h2> {/* Decode title */}
+                
+                <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
+                  {/* Quantity and total price */}
+                  <span className="text-gray-600">Quantity: {item.quantity}</span> {/* Display quantity */}
+                  <span className="text-gray-600">Total Price: #{(item.price * item.quantity).toFixed(2)}</span> {/* Display total price */}
+
+                  {/* Buttons: Remove one and remove all */}
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleRemoveFromCart(item.id)} // Remove one quantity
+                      className="bg-red-500 text-white px-3 py-1 rounded-lg hover:bg-red-600 transition-all duration-200"
+                    >
+                      Remove One
+                    </button>
+                    <button
+                      onClick={() => handleRemoveItemCompletely(item.id)} // Remove item completely
+                      className="bg-gray-500 text-white px-3 py-1 rounded-lg hover:bg-gray-600 transition-all duration-200"
+                    >
+                      Remove All
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           ))}
@@ -129,4 +142,3 @@ const CheckoutPage = () => {
 };
 
 export default CheckoutPage;
-
